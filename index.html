@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Fornecedores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .table-container {
+            max-height: calc(100vh - 350px);
+            overflow-y: auto;
+        }
+        .shadow-custom {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .custom-modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .copyable {
+            cursor: pointer;
+        }
+        .copyable:hover {
+            background-color: #f0f4ff;
+        }
+        
+        /* Barra de rolagem personalizada */
+        .table-container::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #a5b4fc;
+            border-radius: 10px;
+            border: 3px solid #f1f1f1;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #818cf8;
+        }
+        
+        /* Tooltip para os ícones de ordenação */
+        .sort-icon {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .sort-icon .tooltip {
+            visibility: hidden;
+            width:150px; /* Reduzido para menor largura vertical */
+            height:auto;
+            background-color: rgba(99, 102, 241, 0.9); /* Roxo com transparência */
+            color: white;
+            text-align: center;
+            border-radius: 8px; /* Bordas mais arredondadas */
+            padding: 8px;
+            position: absolute;
+            z-index: 9999; /* Valor alto para garantir visibilidade */
+            top: 50%;
+            right: calc(100% + 10px); /* Posiciona à esquerda com espaço */
+            transform: translateY(-50%); /* Centraliza verticalmente */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            pointer-events: none; /* Impede interação com o tooltip */
+            /* Ajuste a largura ou outros estilos aqui, se necessário */
+        }
+        /* Seta do tooltip */
+        .sort-icon .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%; /* Posiciona a seta à direita do tooltip */
+            transform: translateY(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent transparent rgba(99, 102, 241, 0.9); /* Seta apontando para a direita */
+        }
+        .sort-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* Ícone de ordenação ativa */
+        .sort-icon.active svg {
+            color: #6366f1;
+        }
+        .sort-icon.desc svg {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="bg-white rounded-xl p-6 w-full h-full shadow-custom">
+        <h1 class="text-3xl font-bold text-center text-indigo-900 mb-6">Cadastro de Fornecedores</h1>
+
+        <!-- Formulário -->
+        <form id="supplierForm" class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+            <div class="md:col-span-2">
+                <label for="codFornecedor" class="block text-sm font-medium text-gray-700">Cód. Fornecedor</label>
+                <input type="text" id="codFornecedor" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border">
+            </div>
+            <div class="md:col-span-3">
+                <label for="cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
+                <input type="text" id="cnpj" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border" placeholder="00.000.000/0000-00">
+            </div>
+            <div class="md:col-span-5">
+                <label for="nomeFornecedor" class="block text-sm font-medium text-gray-700">Nome Fornecedor</label>
+                <input type="text" id="nomeFornecedor" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border">
+            </div>
+            <div class="md:col-span-2">
+                <label for="centroCusto" class="block text-sm font-medium text-gray-700">Centro Custo</label>
+                <input type="text" id="centroCusto" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border">
+            </div>
+            <div class="md:col-span-12 flex justify-center">
+                <button type="submit" class="bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 btn-hover font-medium">Cadastrar</button>
+            </div>
+        </form>
+
+        <!-- Filtros -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+            <div class="md:col-span-4">
+                <label for="filterCod" class="block text-sm font-medium text-gray-700">Filtrar por Cód. Fornecedor</label>
+                <input type="text" id="filterCod" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border">
+            </div>
+            <div class="md:col-span-4">
+                <label for="filterCnpj" class="block text-sm font-medium text-gray-700">Filtrar por CNPJ</label>
+                <input type="text" id="filterCnpj" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border">
+            </div>
+            <div class="md:col-span-4">
+                <label for="filterNome" class="block text-sm font-medium text-gray-700">Filtrar por Nome</label>
+                <input type="text" id="filterNome" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 p-2 bg-gray-50 border">
+            </div>
+        </div>
+
+        <!-- Botão de Exportação -->
+        <div class="mb-4 flex justify-end">
+            <button id="exportExcel" class="bg-emerald-600 text-white py-2 px-6 rounded-md hover:bg-emerald-700 btn-hover font-medium">Exportar para Excel</button>
+        </div>
+
+        <!-- Tabela -->
+        <div class="table-container">
+            <table id="supplierTable" class="w-full text-sm text-left text-gray-600">
+                <thead class="text-xs text-gray-700 uppercase bg-indigo-100 sticky-header">
+                    <tr>
+                        <th class="px-6 py-3">
+                            <div class="flex items-center justify-between">
+                                Cód. Fornecedor
+                                <span class="sort-icon" onclick="sortTable('codFornecedor', 'numeric')" 
+                                    data-tooltip="Ordem numérica">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    </svg>
+                                    <span class="tooltip">Ordem numérica</span>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-6 py-3">
+                            <div class="flex items-center justify-between">
+                                CNPJ
+                                <span class="sort-icon" onclick="sortTable('cnpj', 'numeric')" 
+                                    data-tooltip="Ordem numérica">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    </svg>
+                                    <span class="tooltip">Ordem numérica</span>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-6 py-3">
+                            <div class="flex items-center justify-between">
+                                Nome Fornecedor
+                                <span class="sort-icon" onclick="sortTable('nomeFornecedor', 'string')" 
+                                    data-tooltip="Ordem alfabética">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    </svg>
+                                    <span class="tooltip">Ordem alfabética</span>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-6 py-3">
+                            <div class="flex items-center justify-between">
+                                Centro de Custo
+                                <span class="sort-icon" onclick="sortTable('centroCusto', 'numeric')" 
+                                    data-tooltip="Ordem numérica">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    </svg>
+                                    <span class="tooltip">Ordem numérica</span>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-6 py-3">
+                            Ações
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Carregar fornecedores do localStorage
+        let suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
+        let currentSort = { column: null, direction: 'asc', type: null };
+
+        // Formatar CNPJ
+        function formatCNPJ(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            if (cnpj.length <= 14) {
+                cnpj = cnpj.replace(/(\d{2})(\d)/, '$1.$2');
+                cnpj = cnpj.replace(/(\d{3})(\d)/, '$1.$2');
+                cnpj = cnpj.replace(/(\d{3})(\d)/, '$1/$2');
+                cnpj = cnpj.replace(/(\d{4})(\d)/, '$1-$2');
+            }
+            return cnpj;
+        }
+
+        // Validar CNPJ (básico)
+        function isValidCNPJ(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            return cnpj.length === 14;
+        }
+
+        // Consultar CNPJ via BrasilAPI
+        async function fetchCNPJData(cnpj) {
+            cnpj = cnpj.replace(/\D/g, '');
+            if (!isValidCNPJ(cnpj)) return;
+            
+            try {
+                const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
+                if (!response.ok) {
+                    throw new Error('CNPJ não encontrado ou erro na API');
+                }
+                const data = await response.json();
+                
+                if (data.razao_social) {
+                    document.getElementById('nomeFornecedor').value = data.razao_social;
+                    Swal.fire({
+                        title: 'Dados encontrados!',
+                        text: `Razão social: ${data.razao_social}`,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao consultar CNPJ:', error);
+                Swal.fire({
+                    title: 'Erro na consulta',
+                    text: error.message,
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1',
+                });
+            }
+        }
+
+        // Formatar CNPJ enquanto digita
+        document.getElementById('cnpj').addEventListener('input', function(e) {
+            e.target.value = formatCNPJ(e.target.value);
+            
+            // Consultar API automaticamente quando o CNPJ estiver completo
+            if (e.target.value.length === 18) {
+                fetchCNPJData(e.target.value);
+            }
+        });
+
+        // Salvar dados no localStorage
+        function saveData() {
+            localStorage.setItem('suppliers', JSON.stringify(suppliers));
+        }
+
+        // Adicionar ou atualizar fornecedor
+        document.getElementById('supplierForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const codFornecedor = document.getElementById('codFornecedor').value.trim();
+            const cnpj = document.getElementById('cnpj').value.trim();
+            const nomeFornecedor = document.getElementById('nomeFornecedor').value.trim();
+            const centroCusto = document.getElementById('centroCusto').value.trim();
+            const editIndex = document.getElementById('supplierForm').dataset.editIndex;
+
+            if (!isValidCNPJ(cnpj)) {
+                Swal.fire({
+                    title: 'CNPJ inválido!',
+                    text: 'O CNPJ deve conter 14 dígitos.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1',
+                });
+                return;
+            }
+
+            if (editIndex) {
+                suppliers[parseInt(editIndex)] = { 
+                    ...suppliers[parseInt(editIndex)], 
+                    codFornecedor, 
+                    cnpj, 
+                    nomeFornecedor, 
+                    centroCusto 
+                };
+                delete document.getElementById('supplierForm').dataset.editIndex;
+                Swal.fire({
+                    title: 'Fornecedor atualizado!',
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1',
+                    timer: 1500
+                });
+            } else {
+                // Verificar se CNPJ já existe
+                const cnpjExists = suppliers.some(s => s.cnpj.replace(/\D/g, '') === cnpj.replace(/\D/g, ''));
+                if (cnpjExists) {
+                    Swal.fire({
+                        title: 'CNPJ já cadastrado!',
+                        text: 'Este CNPJ já está cadastrado no sistema.',
+                        icon: 'warning',
+                        confirmButtonColor: '#6366f1',
+                    });
+                    return;
+                }
+                
+                suppliers.push({ 
+                    codFornecedor, 
+                    cnpj, 
+                    nomeFornecedor, 
+                    centroCusto,
+                    timestamp: new Date().getTime() 
+                });
+                Swal.fire({
+                    title: 'Fornecedor cadastrado!',
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1',
+                    timer: 1500
+                });
+            }
+
+            saveData();
+            updateTable();
+            this.reset();
+        });
+
+        // Função para copiar texto
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+                toast.fire({
+                    icon: 'success',
+                    title: 'Conteúdo copiado!'
+                });
+            });
+        }
+
+        // Função para ordenar a tabela
+        function sortTable(column, type) {
+            // Se clicarmos na mesma coluna, invertemos a direção
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                // Se for uma coluna diferente, resetamos para ascendente
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+                currentSort.type = type;
+            }
+
+            // Atualizar o texto do tooltip
+            const sortIcon = document.querySelector(`.sort-icon[onclick*="sortTable('${column}'"]`);
+            const tooltip = sortIcon.querySelector('.tooltip');
+            let newTooltipText;
+            if (column === 'nomeFornecedor') {
+                newTooltipText = sortIcon.dataset.tooltip === 'Ordem alfabética' ? 'Ordem por criação' : 'Ordem alfabética';
+            } else {
+                newTooltipText = sortIcon.dataset.tooltip === 'Ordem numérica' ? 'Ordem por criação' : 'Ordem numérica';
+            }
+            sortIcon.dataset.tooltip = newTooltipText;
+            tooltip.textContent = newTooltipText;
+
+            suppliers.sort((a, b) => {
+                let valueA = a[column];
+                let valueB = b[column];
+
+                // Tratamento especial para CNPJ (remover formatação para ordenar)
+                if (column === 'cnpj') {
+                    valueA = valueA.replace(/\D/g, '');
+                    valueB = valueB.replace(/\D/g, '');
+                }
+
+                // Tratamento para diferentes tipos de ordenação
+                if (type === 'numeric') {
+                    valueA = Number(valueA) || 0;
+                    valueB = Number(valueB) || 0;
+                } else if (type === 'date') {
+                    valueA = new Date(valueA).getTime();
+                    valueB = new Date(valueB).getTime();
+                } else {
+                    // Ordenação padrão (string)
+                    valueA = String(valueA).toLowerCase();
+                    valueB = String(valueB).toLowerCase();
+                }
+
+                if (valueA < valueB) {
+                    return currentSort.direction === 'asc' ? -1 : 1;
+                }
+                if (valueA > valueB) {
+                    return currentSort.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+
+            updateTable();
+        }
+
+        // Atualizar tabela
+        function updateTable() {
+            const tableBody = document.getElementById('tableBody');
+            const filterCod = document.getElementById('filterCod').value.toLowerCase();
+            const filterCnpj = document.getElementById('filterCnpj').value.toLowerCase();
+            const filterNome = document.getElementById('filterNome').value.toLowerCase();
+
+            tableBody.innerHTML = '';
+            suppliers
+                .filter(supplier =>
+                    supplier.codFornecedor.toLowerCase().includes(filterCod) &&
+                    supplier.cnpj.toLowerCase().includes(filterCnpj) &&
+                    supplier.nomeFornecedor.toLowerCase().includes(filterNome)
+                )
+                .forEach((supplier, index) => {
+                    const row = document.createElement('tr');
+                    row.className = 'bg-white border-b hover:bg-indigo-50';
+                    row.innerHTML = `
+                        <td class="px-6 py-4 copyable" onclick="copyToClipboard('${supplier.codFornecedor}')">${supplier.codFornecedor}</td>
+                        <td class="px-6 py-4 copyable" onclick="copyToClipboard('${formatCNPJ(supplier.cnpj)}')">${formatCNPJ(supplier.cnpj)}</td>
+                        <td class="px-6 py-4 copyable" onclick="copyToClipboard('${supplier.nomeFornecedor}')">${supplier.nomeFornecedor}</td>
+                        <td class="px-6 py-4">
+                            <input type="text" value="${supplier.centroCusto}" class="w-full border rounded p-1 bg-gray-50"
+                                onchange="updateCostCenter(${index}, this.value)">
+                        </td>
+                        <td class="px-6 py-4 flex space-x-2">
+                            <button onclick="editSupplier(${index})" class="text-indigo-600 hover:text-indigo-800 btn-hover">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </button>
+                            <button onclick="confirmDelete(${index})" class="text-red-600 hover:text-red-800 btn-hover">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4M9 7v12m6-12v12" />
+                                </svg>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+            // Atualizar ícones de ordenação
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.classList.remove('active', 'desc');
+            });
+
+            const currentIcon = document.querySelector(`.sort-icon[onclick*="${currentSort.column}"]`);
+            if (currentIcon) {
+                currentIcon.classList.add('active');
+                if (currentSort.direction === 'desc') {
+                    currentIcon.classList.add('desc');
+                }
+            }
+        }
+
+        // Atualizar centro de custo
+        function updateCostCenter(index, value) {
+            suppliers[index].centroCusto = value;
+            saveData();
+            updateTable();
+        }
+
+        // Editar fornecedor
+        function editSupplier(index) {
+            const supplier = suppliers[index];
+            document.getElementById('codFornecedor').value = supplier.codFornecedor;
+            document.getElementById('cnpj').value = formatCNPJ(supplier.cnpj);
+            document.getElementById('nomeFornecedor').value = supplier.nomeFornecedor;
+            document.getElementById('centroCusto').value = supplier.centroCusto;
+            document.getElementById('supplierForm').dataset.editIndex = index;
+            
+            // Scroll para o formulário
+            document.getElementById('supplierForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Confirmar exclusão
+        function confirmDelete(index) {
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você não poderá reverter isso!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#ef4444',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    suppliers.splice(index, 1);
+                    saveData();
+                    updateTable();
+                    Swal.fire(
+                        'Excluído!',
+                        'O fornecedor foi removido.',
+                        'success'
+                    );
+                }
+            });
+        }
+
+        // Filtros automáticos
+        document.getElementById('filterCod').addEventListener('input', updateTable);
+        document.getElementById('filterCnpj').addEventListener('input', updateTable);
+        document.getElementById('filterNome').addEventListener('input', updateTable);
+
+        // Exportar para Excel
+        document.getElementById('exportExcel').addEventListener('click', function() {
+            if (suppliers.length === 0) {
+                Swal.fire({
+                    title: 'Nenhum dado para exportar',
+                    text: 'Adicione fornecedores antes de exportar',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1',
+                });
+                return;
+            }
+            
+            const data = suppliers.map(s => ({
+                'Cód. Fornecedor': s.codFornecedor,
+                'CNPJ': formatCNPJ(s.cnpj),
+                'Nome Fornecedor': s.nomeFornecedor,
+                'Centro de Custo': s.centroCusto,
+                'Data Cadastro': new Date(s.timestamp).toLocaleString()
+            }));
+            
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Fornecedores');
+            XLSX.writeFile(wb, 'fornecedores.xlsx');
+            
+            Swal.fire({
+                title: 'Exportado com sucesso!',
+                text: 'O arquivo Excel foi gerado.',
+                icon: 'success',
+                confirmButtonColor: '#6366f1',
+                timer: 1500
+            });
+        });
+
+        // Carregar tabela ao iniciar
+        updateTable();
+    </script>
+</body>
+</html>
