@@ -87,20 +87,35 @@
             background-color: #6b7280;
         }
 
+        .copied {
+            position: relative;
+            /* Necessário para o posicionamento do ::after */
+            display: inline-block;
+        }
+
         .copied::after {
             content: 'Copiado!';
             position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4b5563;
-            color: rgb(255, 255, 255);
+            top: 20%;
+            left: 100%;
+            /* Posiciona o balão à direita do texto */
+            transform: translateY(-50%);
+            /* Centraliza verticalmente em relação ao texto */
+            margin-left: 25px;
+            /* Espaçamento entre o texto e o balão */
+
+            background-color: #9ed88f;
+            color: rgb(49, 82, 90);
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
             opacity: 0;
             animation: fadeInOut 1.5s ease forwards;
         }
+
+
 
         @keyframes fadeInOut {
             0% {
