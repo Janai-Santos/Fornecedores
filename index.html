@@ -55,7 +55,11 @@
         }
 
         .btn-hover {
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
         }
 
         input:focus {
@@ -89,7 +93,6 @@
 
         .copied {
             position: relative;
-            /* Necessário para o posicionamento do ::after */
             display: inline-block;
         }
 
@@ -98,12 +101,8 @@
             position: absolute;
             top: 20%;
             left: 100%;
-            /* Posiciona o balão à direita do texto */
             transform: translateY(-50%);
-            /* Centraliza verticalmente em relação ao texto */
             margin-left: 25px;
-            /* Espaçamento entre o texto e o balão */
-
             background-color: #9ed88f;
             color: rgb(49, 82, 90);
             padding: 4px 8px;
@@ -114,8 +113,6 @@
             opacity: 0;
             animation: fadeInOut 1.5s ease forwards;
         }
-
-
 
         @keyframes fadeInOut {
             0% {
@@ -314,6 +311,190 @@
         .swal2-timer-progress-bar {
             background-color: #3274aa !important;
         }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: linear-gradient(145deg, #2d3748 0%, #1f2937 100%);
+            border: 1px solid #4b5563;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            min-width: 260px;
+            padding: 12px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #a5b4fc;
+            border-bottom: 1px solid #4b5563;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            color: #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #4b5563;
+            transform: translateX(4px);
+            color: #ffffff;
+        }
+
+        .dropdown-item.danger {
+            color: #f87171;
+        }
+
+        .dropdown-item.danger:hover {
+            background-color: #7f1d1d;
+            color: #ffffff;
+        }
+
+        .dropdown-item svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .dropdown-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #6366f1;
+            cursor: pointer;
+        }
+
+        .dropdown-item label {
+            cursor: pointer;
+            font-size: 14px;
+            flex-grow: 1;
+        }
+
+        .dropdown-item:focus-within {
+            background-color: #4b5563;
+            outline: 2px solid #6366f1;
+            outline-offset: -2px;
+        }
+
+        .filter-button {
+            position: relative;
+        }
+
+        .filter-button .tooltip {
+            visibility: hidden;
+            width: 150px;
+            background-color: rgba(99, 102, 241, 0.9);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px;
+            position: absolute;
+            z-index: 9999;
+            top: 50%;
+            right: calc(100% + 10px);
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
+
+        .filter-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .filter-button .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent transparent rgba(99, 102, 241, 0.9);
+        }
+
+        .filter-dropdown {
+            background-color: #1f2937;
+            border: 1px solid #6b7280;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 400px;
+            z-index: 1000;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #d1d5db;
+            margin-bottom: 5px;
+        }
+
+        .filter-group .range-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-group .range-container input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #6b7280;
+            border-radius: 4px;
+            background-color: #4b5563;
+            color: #e5e7eb;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .filter-actions button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .filter-actions button:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
@@ -324,6 +505,35 @@
     <div class="custom-container rounded-xl p-6 w-full h-full shadow-custom">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-center custom-bg-indigo">Cadastro de Fornecedores</h1>
+            <div class="dropdown-container">
+                <button id="settingsButton" class="text-white p-2 rounded-md hover:bg-gray-600 btn-hover focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+                <div id="settingsMenu" class="dropdown-menu">
+                    <div class="dropdown-header">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Configurações
+                    </div>
+                    <div class="dropdown-item" id="toggleCodValidation">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <label for="validateCod">Validar Código Fornecedor</label>
+                        <input type="checkbox" id="validateCod" checked>
+                    </div>
+                    <div class="dropdown-item danger" id="clearAllData">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4M9 7v12m6-12v12" />
+                        </svg>
+                        <span>Apagar Todos os Dados</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Formulário -->
@@ -370,8 +580,7 @@
         <!-- Filtros e Botões de Backup -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
             <div class="md:col-span-4">
-                <label for="filterCod" class="block text-sm font-medium custom-text-light">Filtrar por Cód.
-                    Fornecedor</label>
+                <label for="filterCod" class="block text-sm font-medium custom-text-light">Filtrar por Cód. Fornecedor</label>
                 <input type="text" id="filterCod"
                     class="mt-1 block w-full rounded-md custom-border shadow-sm focus:border-indigo-500 p-2 bg-gray-600 border custom-text-light">
             </div>
@@ -381,10 +590,47 @@
                     class="mt-1 block w-full rounded-md custom-border shadow-sm focus:border-indigo-500 p-2 bg-gray-600 border custom-text-light"
                     placeholder="00.000.000/0000-00">
             </div>
-            <div class="md:col-span-4">
+            <div class="md:col-span-3">
                 <label for="filterNome" class="block text-sm font-medium custom-text-light">Filtrar por Nome</label>
                 <input type="text" id="filterNome"
                     class="mt-1 block w-full rounded-md custom-border shadow-sm focus:border-indigo-500 p-2 bg-gray-600 border custom-text-light">
+            </div>
+            <div class="md:col-span-1 flex items-end">
+                <div class="dropdown-container">
+                    <button id="customFilterButton" class="filter-button bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700 btn-hover">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v3.586a1 1 0 01-.293.707l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 01-.293-.707V11.3a1 1 0 00-.293-.707L3.293 4.293A1 1 0 013 3.586V4z" />
+                        </svg>
+                        <span class="tooltip">Filtro Personalizado</span>
+                    </button>
+                    <div id="customFilterMenu" class="dropdown-menu filter-dropdown">
+                        <div class="filter-group">
+                            <label>Cód. Fornecedor</label>
+                            <div class="range-container">
+                                <input type="text" id="customFilterCodFrom" placeholder="De">
+                                <input type="text" id="customFilterCodTo" placeholder="Até">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>CNPJ</label>
+                            <div class="range-container">
+                                <input type="text" id="customFilterCnpjFrom" placeholder="00.000.000/0000-00">
+                                <input type="text" id="customFilterCnpjTo" placeholder="00.000.000/0000-00">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Centro de Custo</label>
+                            <div class="range-container">
+                                <input type="text" id="customFilterCentroCustoFrom" placeholder="De">
+                                <input type="text" id="customFilterCentroCustoTo" placeholder="Até">
+                            </div>
+                        </div>
+                        <div class="filter-actions">
+                            <button id="applyCustomFilter" class="bg-indigo-600 text-white hover:bg-indigo-700">Aplicar</button>
+                            <button id="clearCustomFilter" class="bg-gray-600 text-white hover:bg-gray-700">Limpar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="md:col-span-12 flex justify-end space-x-4">
                 <button id="exportJson"
@@ -492,9 +738,19 @@
     <script>
         let suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
         let currentSort = { column: null, direction: 'asc', type: null };
+        let validateCodFornecedor = true;
+        let customFilters = {
+            codFornecedor: { from: '', to: '' },
+            cnpj: { from: '', to: '' },
+            centroCusto: { from: '', to: '' }
+        };
 
         // Validar código do fornecedor
         function checkCodFornecedor(cod) {
+            if (!validateCodFornecedor) {
+                document.getElementById('codError').classList.add('hidden');
+                return true;
+            }
             const codError = document.getElementById('codError');
             const editIndex = document.getElementById('supplierForm').dataset.editIndex;
             const codExists = suppliers.some((s, i) => s.codFornecedor === cod.trim() && (editIndex ? i !== parseInt(editIndex) : true));
@@ -610,6 +866,33 @@
             if (value.length >= 13 && end > 15) adjustedEnd += 1;
             e.target.setSelectionRange(adjustedStart, adjustedEnd);
             updateTable();
+        });
+
+        // Formatar CNPJ nos campos de filtro personalizado
+        ['customFilterCnpjFrom', 'customFilterCnpjTo'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function (e) {
+                const start = e.target.selectionStart;
+                const end = e.target.selectionEnd;
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = value;
+                if (value.length > 2) formattedValue = value.substring(0, 2) + '.' + value.substring(2);
+                if (value.length > 5) formattedValue = formattedValue.substring(0, 6) + '.' + formattedValue.substring(6);
+                if (value.length > 8) formattedValue = formattedValue.substring(0, 10) + '/' + formattedValue.substring(10);
+                if (value.length > 12) formattedValue = formattedValue.substring(0, 15) + '-' + formattedValue.substring(15);
+                formattedValue = formattedValue.substring(0, 18);
+                e.target.value = formattedValue;
+                let adjustedStart = start;
+                let adjustedEnd = end;
+                if (value.length >= 3 && start > 2) adjustedStart += 1;
+                if (value.length >= 6 && start > 6) adjustedStart += 1;
+                if (value.length >= 9 && start > 10) adjustedStart += 1;
+                if (value.length >= 13 && start > 15) adjustedStart += 1;
+                if (value.length >= 3 && end > 2) adjustedEnd += 1;
+                if (value.length >= 6 && end > 6) adjustedEnd += 1;
+                if (value.length >= 9 && end > 10) adjustedEnd += 1;
+                if (value.length >= 13 && end > 15) adjustedEnd += 1;
+                e.target.setSelectionRange(adjustedStart, adjustedEnd);
+            });
         });
 
         // Consultar CNPJ com loading
@@ -798,17 +1081,32 @@
 
             const filteredSuppliers = suppliers.filter(supplier => {
                 const cleanCnpj = supplier.cnpj.replace(/\D/g, '');
+                const codFornecedor = supplier.codFornecedor.toLowerCase();
+                const centroCusto = supplier.centroCusto.toLowerCase();
+                const { codFornecedor: codFilter, cnpj: cnpjFilter, centroCusto: centroCustoFilter } = customFilters;
+
+                const codMatch = (!codFilter.from || codFornecedor >= codFilter.from.toLowerCase()) &&
+                                 (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
+                const cnpjMatch = (!cnpjFilter.from || cleanCnpj >= cnpjFilter.from.replace(/\D/g, '')) &&
+                                  (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
+                const centroCustoMatch = (!centroCustoFilter.from || centroCusto >= centroCustoFilter.from.toLowerCase()) &&
+                                         (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
+
                 return (
-                    supplier.codFornecedor.toLowerCase().includes(filterCod) &&
+                    codFornecedor.includes(filterCod) &&
                     cleanCnpj.includes(filterCnpj) &&
-                    supplier.nomeFornecedor.toLowerCase().includes(filterNome)
+                    supplier.nomeFornecedor.toLowerCase().includes(filterNome) &&
+                    codMatch &&
+                    cnpjMatch &&
+                    centroCustoMatch
                 );
             });
 
-            document.getElementById('quantityHeader').textContent = `Qtd. (${suppliers.length})`;
+            document.getElementById('quantityHeader').textContent = `Qtd. (${filteredSuppliers.length})`;
 
             tableBody.innerHTML = '';
             filteredSuppliers.forEach((supplier, index) => {
+                const globalIndex = suppliers.findIndex(s => s.codFornecedor === supplier.codFornecedor && s.cnpj === supplier.cnpj);
                 const row = document.createElement('tr');
                 row.className = 'bg-gray-700 border-b custom-hover-indigo';
                 row.innerHTML = `
@@ -818,15 +1116,15 @@
                     <td class="px-6 py-4 copyable custom-text-light" onclick="copyToClipboard('${supplier.nomeFornecedor}', this)">${supplier.nomeFornecedor}</td>
                     <td class="px-6 py-4">
                         <input type="text" value="${supplier.centroCusto}" class="w-full border rounded p-1 bg-gray-600 custom-border custom-text-light"
-                            onchange="updateCostCenter(${index}, this.value)">
+                            onchange="updateCostCenter(${globalIndex}, this.value)">
                     </td>
                     <td class="px-6 py-4 flex space-x-2">
-                        <button onclick="editSupplier(${index})" class="custom-text-indigo hover:text-indigo-200 btn-hover">
+                        <button onclick="editSupplier(${globalIndex})" class="custom-text-indigo hover:text-indigo-200 btn-hover">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                         </button>
-                        <button onclick="confirmDelete(${index})" class="text-red-400 hover:text-red-300 btn-hover">
+                        <button onclick="confirmDelete(${globalIndex})" class="text-red-400 hover:text-red-300 btn-hover">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4M9 7v12m6-12v12" />
                             </svg>
@@ -897,12 +1195,160 @@
             });
         }
 
-        // Exportar JSON
+        // Configurações: Alternar validação de código
+        document.getElementById('toggleCodValidation').addEventListener('click', function () {
+            validateCodFornecedor = !validateCodFornecedor;
+            document.getElementById('validateCod').checked = validateCodFornecedor;
+            checkFormValidity();
+            Swal.fire({
+                title: `Validação de código ${validateCodFornecedor ? 'ativada' : 'desativada'}`,
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        });
+
+        // Configurações: Apagar todos os dados
+        document.getElementById('clearAllData').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Apagar todos os dados?',
+                text: 'Digite "CONFIRMAR" para prosseguir. Esta ação é irreversível!',
+                input: 'text',
+                inputPlaceholder: 'Digite CONFIRMAR',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Apagar',
+                showLoaderOnConfirm: true,
+                preConfirm: (input) => {
+                    if (input !== 'CONFIRMAR') {
+                        Swal.showValidationMessage('Digite exatamente "CONFIRMAR"');
+                        return false;
+                    }
+                    return true;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    suppliers = [];
+                    saveData();
+                    updateTable();
+                    Swal.fire({
+                        title: 'Dados apagados!',
+                        text: 'Todos os fornecedores foram removidos.',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+            });
+        });
+
+        // Alternar menu de configurações
+        document.getElementById('settingsButton').addEventListener('click', function () {
+            const menu = document.getElementById('settingsMenu');
+            menu.classList.toggle('show');
+        });
+
+        // Fechar menu de configurações ao clicar fora
+        document.addEventListener('click', function (e) {
+            const settingsButton = document.getElementById('settingsButton');
+            const settingsMenu = document.getElementById('settingsMenu');
+            if (!settingsButton.contains(e.target) && !settingsMenu.contains(e.target)) {
+                settingsMenu.classList.remove('show');
+            }
+        });
+
+        // Alternar menu de filtro personalizado
+        document.getElementById('customFilterButton').addEventListener('click', function () {
+            const menu = document.getElementById('customFilterMenu');
+            menu.classList.toggle('show');
+        });
+
+        // Aplicar filtro personalizado
+        document.getElementById('applyCustomFilter').addEventListener('click', function () {
+            customFilters.codFornecedor.from = document.getElementById('customFilterCodFrom').value;
+            customFilters.codFornecedor.to = document.getElementById('customFilterCodTo').value;
+            customFilters.cnpj.from = document.getElementById('customFilterCnpjFrom').value;
+            customFilters.cnpj.to = document.getElementById('customFilterCnpjTo').value;
+            customFilters.centroCusto.from = document.getElementById('customFilterCentroCustoFrom').value;
+            customFilters.centroCusto.to = document.getElementById('customFilterCentroCustoTo').value;
+            updateTable();
+            document.getElementById('customFilterMenu').classList.remove('show');
+            Swal.fire({
+                title: 'Filtro aplicado!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        });
+
+        // Limpar filtro personalizado
+        document.getElementById('clearCustomFilter').addEventListener('click', function () {
+            customFilters = {
+                codFornecedor: { from: '', to: '' },
+                cnpj: { from: '', to: '' },
+                centroCusto: { from: '', to: '' }
+            };
+            document.getElementById('customFilterCodFrom').value = '';
+            document.getElementById('customFilterCodTo').value = '';
+            document.getElementById('customFilterCnpjFrom').value = '';
+            document.getElementById('customFilterCnpjTo').value = '';
+            document.getElementById('customFilterCentroCustoFrom').value = '';
+            document.getElementById('customFilterCentroCustoTo').value = '';
+            updateTable();
+            document.getElementById('customFilterMenu').classList.remove('show');
+            Swal.fire({
+                title: 'Filtros limpos!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        });
+
+        // Fechar menu de filtro ao clicar fora
+        document.addEventListener('click', function (e) {
+            const filterButton = document.getElementById('customFilterButton');
+            const filterMenu = document.getElementById('customFilterMenu');
+            if (!filterButton.contains(e.target) && !filterMenu.contains(e.target)) {
+                filterMenu.classList.remove('show');
+            }
+        });
+
+        // Exportar JSON (apenas dados filtrados)
         document.getElementById('exportJson').addEventListener('click', function () {
-            if (suppliers.length === 0) {
+            const filterCod = document.getElementById('filterCod').value.toLowerCase();
+            const filterCnpj = document.getElementById('filterCnpj').value.replace(/\D/g, '');
+            const filterNome = document.getElementById('filterNome').value.toLowerCase();
+            const filteredSuppliers = suppliers.filter(supplier => {
+                const cleanCnpj = supplier.cnpj.replace(/\D/g, '');
+                const codFornecedor = supplier.codFornecedor.toLowerCase();
+                const centroCusto = supplier.centroCusto.toLowerCase();
+                const { codFornecedor: codFilter, cnpj: cnpjFilter, centroCusto: centroCustoFilter } = customFilters;
+
+                const codMatch = (!codFilter.from || codFornecedor >= codFilter.from.toLowerCase()) &&
+                                 (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
+                const cnpjMatch = (!cnpjFilter.from || cleanCnpj >= cnpjFilter.from.replace(/\D/g, '')) &&
+                                  (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
+                const centroCustoMatch = (!centroCustoFilter.from || centroCusto >= centroCustoFilter.from.toLowerCase()) &&
+                                         (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
+
+                return (
+                    codFornecedor.includes(filterCod) &&
+                    cleanCnpj.includes(filterCnpj) &&
+                    supplier.nomeFornecedor.toLowerCase().includes(filterNome) &&
+                    codMatch &&
+                    cnpjMatch &&
+                    centroCustoMatch
+                );
+            });
+
+            if (filteredSuppliers.length === 0) {
                 Swal.fire({
                     title: 'Nenhum dado para exportar',
-                    text: 'Adicione fornecedores antes de exportar',
+                    text: 'Adicione fornecedores ou ajuste os filtros',
                     icon: 'warning',
                     showConfirmButton: false,
                     timer: 3000,
@@ -910,7 +1356,7 @@
                 });
                 return;
             }
-            const exportData = suppliers.map(s => ({
+            const exportData = filteredSuppliers.map(s => ({
                 codFornecedor: s.codFornecedor,
                 cnpj: s.cnpj,
                 nomeFornecedor: s.nomeFornecedor,
@@ -922,7 +1368,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'fornecedores.json';
+            a.download = 'fornecedores_filtrados.json';
             a.click();
             URL.revokeObjectURL(url);
             Swal.fire({
@@ -935,7 +1381,7 @@
             });
         });
 
-        // Importar JSON
+        // Importar JSON (mesclar sem excluir)
         document.getElementById('importJson').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -944,33 +1390,71 @@
                 try {
                     const importedData = JSON.parse(e.target.result);
                     if (!Array.isArray(importedData)) throw new Error('Arquivo JSON deve conter uma lista de fornecedores');
-                    const validData = importedData.every(s =>
-                        s.codFornecedor &&
-                        typeof s.codFornecedor === 'string' &&
-                        s.cnpj &&
-                        validarCNPJ(s.cnpj) &&
-                        s.nomeFornecedor &&
-                        typeof s.nomeFornecedor === 'string' &&
-                        (s.centroCusto === undefined || typeof s.centroCusto === 'string') &&
-                        s.timestamp &&
-                        typeof s.timestamp === 'number'
-                    );
-                    if (!validData) throw new Error('Dados inválidos no arquivo JSON. Verifique se todos os fornecedores têm codFornecedor, cnpj válido, nomeFornecedor e timestamp.');
-                    const uniqueCnpjs = new Set(importedData.map(s => s.cnpj));
-                    if (uniqueCnpjs.size !== importedData.length) throw new Error('CNPJs duplicados encontrados no arquivo JSON');
-                    const uniqueCodes = new Set(importedData.map(s => s.codFornecedor));
-                    if (uniqueCodes.size !== importedData.length) throw new Error('Códigos de fornecedor duplicados encontrados no arquivo JSON');
-                    suppliers = importedData;
-                    saveData();
-                    updateTable();
-                    Swal.fire({
-                        title: 'Importado com sucesso!',
-                        text: 'Os dados foram restaurados.',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true
+                    
+                    const invalidEntries = [];
+                    const validEntries = [];
+                    const existingCnpjs = new Set(suppliers.map(s => s.cnpj));
+                    const existingCodes = new Set(suppliers.map(s => s.codFornecedor));
+
+                    importedData.forEach((s, index) => {
+                        const isValid = (
+                            s.codFornecedor &&
+                            typeof s.codFornecedor === 'string' &&
+                            s.cnpj &&
+                            validarCNPJ(s.cnpj) &&
+                            s.nomeFornecedor &&
+                            typeof s.nomeFornecedor === 'string' &&
+                            (s.centroCusto === undefined || typeof s.centroCusto === 'string') &&
+                            s.timestamp &&
+                            typeof s.timestamp === 'number' &&
+                            (!validateCodFornecedor || !existingCodes.has(s.codFornecedor)) &&
+                            !existingCnpjs.has(s.cnpj)
+                        );
+                        if (isValid) {
+                            validEntries.push(s);
+                            existingCnpjs.add(s.cnpj);
+                            existingCodes.add(s.codFornecedor);
+                        } else {
+                            invalidEntries.push({ index: index + 1, data: s, reason: getInvalidReason(s) });
+                        }
                     });
+
+                    if (validEntries.length > 0) {
+                        suppliers = [...suppliers, ...validEntries];
+                        saveData();
+                        updateTable();
+                    }
+
+                    if (invalidEntries.length > 0) {
+                        const invalidDataStr = JSON.stringify(invalidEntries.map(e => ({ ...e.data, reason: e.reason })), null, 2);
+                        const blob = new Blob([invalidDataStr], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        Swal.fire({
+                            title: 'Importação parcial',
+                            text: `${validEntries.length} fornecedores importados. ${invalidEntries.length} registros inválidos. Deseja baixar o arquivo com os erros?`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Baixar erros',
+                            cancelButtonText: 'Fechar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'fornecedores_invalidos.json';
+                                a.click();
+                                URL.revokeObjectURL(url);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Importado com sucesso!',
+                            text: `${validEntries.length} fornecedores importados.`,
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
                 } catch (error) {
                     Swal.fire({
                         title: 'Erro na importação',
@@ -980,18 +1464,56 @@
                         timer: 3000,
                         timerProgressBar: true
                     });
+                } finally {
+                    document.getElementById('importJson').value = ''; // Resetar input para permitir nova importação
                 }
-                e.target.value = '';
             };
             reader.readAsText(file);
         });
 
-        // Exportar para Excel
+        function getInvalidReason(s) {
+            if (!s.codFornecedor || typeof s.codFornecedor !== 'string') return 'Código do fornecedor inválido';
+            if (!s.cnpj || !validarCNPJ(s.cnpj)) return 'CNPJ inválido';
+            if (!s.nomeFornecedor || typeof s.nomeFornecedor !== 'string') return 'Nome do fornecedor inválido';
+            if (s.centroCusto !== undefined && typeof s.centroCusto !== 'string') return 'Centro de custo inválido';
+            if (!s.timestamp || typeof s.timestamp !== 'number') return 'Timestamp inválido';
+            if (validateCodFornecedor && new Set(suppliers.map(s => s.codFornecedor)).has(s.codFornecedor)) return 'Código do fornecedor duplicado';
+            if (new Set(suppliers.map(s => s.cnpj)).has(s.cnpj)) return 'CNPJ duplicado';
+            return 'Erro desconhecido';
+        }
+
+        // Exportar para Excel (apenas dados filtrados)
         document.getElementById('exportExcel').addEventListener('click', function () {
-            if (suppliers.length === 0) {
+            const filterCod = document.getElementById('filterCod').value.toLowerCase();
+            const filterCnpj = document.getElementById('filterCnpj').value.replace(/\D/g, '');
+            const filterNome = document.getElementById('filterNome').value.toLowerCase();
+            const filteredSuppliers = suppliers.filter(supplier => {
+                const cleanCnpj = supplier.cnpj.replace(/\D/g, '');
+                const codFornecedor = supplier.codFornecedor.toLowerCase();
+                const centroCusto = supplier.centroCusto.toLowerCase();
+                const { codFornecedor: codFilter, cnpj: cnpjFilter, centroCusto: centroCustoFilter } = customFilters;
+
+                const codMatch = (!codFilter.from || codFornecedor >= codFilter.from.toLowerCase()) &&
+                                 (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
+                const cnpjMatch = (!cnpjFilter.from || cleanCnpj >= cnpjFilter.from.replace(/\D/g, '')) &&
+                                  (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
+                const centroCustoMatch = (!centroCustoFilter.from || centroCusto >= centroCustoFilter.from.toLowerCase()) &&
+                                         (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
+
+                return (
+                    codFornecedor.includes(filterCod) &&
+                    cleanCnpj.includes(filterCnpj) &&
+                    supplier.nomeFornecedor.toLowerCase().includes(filterNome) &&
+                    codMatch &&
+                    cnpjMatch &&
+                    centroCustoMatch
+                );
+            });
+
+            if (filteredSuppliers.length === 0) {
                 Swal.fire({
                     title: 'Nenhum dado para exportar',
-                    text: 'Adicione fornecedores antes de exportar',
+                    text: 'Adicione fornecedores ou ajuste os filtros',
                     icon: 'warning',
                     showConfirmButton: false,
                     timer: 3000,
@@ -999,7 +1521,7 @@
                 });
                 return;
             }
-            const data = suppliers.map(s => ({
+            const data = filteredSuppliers.map(s => ({
                 'Cód. Fornecedor': s.codFornecedor,
                 'CNPJ': formatCNPJ(s.cnpj, false),
                 'Nome Fornecedor': s.nomeFornecedor,
@@ -1009,7 +1531,7 @@
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Fornecedores');
-            XLSX.writeFile(wb, 'fornecedores.xlsx');
+            XLSX.writeFile(wb, 'fornecedores_filtrados.xlsx');
             Swal.fire({
                 title: 'Exportado com sucesso!',
                 text: 'O arquivo Excel foi gerado.',
