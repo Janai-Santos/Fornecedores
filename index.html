@@ -398,7 +398,7 @@
 
         .dropdown-item:focus-within {
             background-color: #4b5563;
-            outline: 2px solid #6366f1;
+            outline: 2px solid #c963f1;
             outline-offset: -2px;
         }
 
@@ -432,6 +432,18 @@
             opacity: 1;
         }
 
+#customFilterButton:hover {
+    transform: scale(1.1); /* Efeito de zoom no botão inteiro */
+    transition: transform 0.3s ease; /* Transição suave */
+}
+
+#customFilterButton:hover svg {
+    transform: scale(1); /* Remove o zoom individual do SVG para evitar sobreposição */
+}
+
+#customFilterButton.btn-hover:hover {
+    transform: scale(1.1); /* Garante que o zoom seja aplicado, sobrescrevendo o efeito de subir */
+}
         .filter-button .tooltip::after {
             content: "";
             position: absolute;
@@ -495,6 +507,84 @@
         .filter-actions button:hover {
             transform: translateY(-2px);
         }
+
+        .icon-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            /* Ajustado de 32px para 40px para acomodar ícones e setas maiores */
+            height: 80px;
+            /* Ajustado de 32px para 40px para acomodar ícones e setas maiores */
+            cursor: pointer;
+            position: relative;
+            top: 15px;
+        }
+
+        .icon-button img {
+            width: 45px;
+            height: 45px;
+            transition: transform 0.3s ease;
+            /* animação suave */
+        }
+
+        .icon-button:hover img {
+            transform: scale(1.1);
+        }
+
+
+        .icon-button .tooltip {
+            visibility: hidden;
+            width: 140px;
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px;
+            position: absolute;
+            z-index: 9999;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 90vw;
+            /* nunca ultrapasse 90% da largura da tela */
+            word-wrap: break-word;
+            white-space: normal;
+            white-space: normal;
+            /* permite quebra de linha se for necessário */
+        }
+
+        .icon-button .tooltip::after {
+            content: "";
+            position:fixed;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent rgba(255, 255, 255, 0.9) transparent;
+        }
+
+        .icon-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .icon-button svg {
+            width: 20px;            /* Ajustado de 16px para 24px para aumentar o tamanho da seta */
+            height: 20px;            /* Ajustado de 16px para 24px para aumentar o tamanho da seta */
+            margin-left: 4px;
+            color: #efd1fd;
+        }
     </style>
 </head>
 
@@ -506,16 +596,20 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-center custom-bg-indigo">Cadastro de Fornecedores</h1>
             <div class="dropdown-container">
-                <button id="settingsButton" class="text-white p-2 rounded-md hover:bg-gray-600 btn-hover focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button id="settingsButton"
+                    class="text-white p-2 rounded-md hover:bg-gray-600 btn-hover focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </button>
                 <div id="settingsMenu" class="dropdown-menu">
                     <div class="dropdown-header">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                         Configurações
                     </div>
@@ -528,7 +622,8 @@
                     </div>
                     <div class="dropdown-item danger" id="clearAllData">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4M9 7v12m6-12v12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4M9 7v12m6-12v12" />
                         </svg>
                         <span>Apagar Todos os Dados</span>
                     </div>
@@ -577,29 +672,32 @@
             </div>
         </form>
 
-        <!-- Filtros e Botões de Backup -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
-            <div class="md:col-span-4">
-                <label for="filterCod" class="block text-sm font-medium custom-text-light">Filtrar por Cód. Fornecedor</label>
-                <input type="text" id="filterCod"
+        <!-- Filtros e Ícones -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6 items-end">
+            <div class="md:col-span-3">
+                <label for="filterNome" class="block text-sm font-medium custom-text-light">Filtrar por Nome</label>
+                <input type="text" id="filterNome"
                     class="mt-1 block w-full rounded-md custom-border shadow-sm focus:border-indigo-500 p-2 bg-gray-600 border custom-text-light">
             </div>
-            <div class="md:col-span-4">
+            <div class="md:col-span-3">
                 <label for="filterCnpj" class="block text-sm font-medium custom-text-light">Filtrar por CNPJ</label>
                 <input type="text" id="filterCnpj"
                     class="mt-1 block w-full rounded-md custom-border shadow-sm focus:border-indigo-500 p-2 bg-gray-600 border custom-text-light"
                     placeholder="00.000.000/0000-00">
             </div>
             <div class="md:col-span-3">
-                <label for="filterNome" class="block text-sm font-medium custom-text-light">Filtrar por Nome</label>
-                <input type="text" id="filterNome"
+                <label for="filterCod" class="block text-sm font-medium custom-text-light">Filtrar por Cód.
+                    Fornecedor</label>
+                <input type="text" id="filterCod"
                     class="mt-1 block w-full rounded-md custom-border shadow-sm focus:border-indigo-500 p-2 bg-gray-600 border custom-text-light">
             </div>
             <div class="md:col-span-1 flex items-end">
                 <div class="dropdown-container">
-                    <button id="customFilterButton" class="filter-button bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700 btn-hover">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v3.586a1 1 0 01-.293.707l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 01-.293-.707V11.3a1 1 0 00-.293-.707L3.293 4.293A1 1 0 013 3.586V4z" />
+                    <button id="customFilterButton"
+                        class="filter-button bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700 btn-hover">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v3.586a1 1 0 01-.293.707l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 01-.293-.707V11.3a1 1 0 00-.293-.707L3.293 4.293A1 1 0 013 3.586V4z" />
                         </svg>
                         <span class="tooltip">Filtro Personalizado</span>
                     </button>
@@ -626,40 +724,43 @@
                             </div>
                         </div>
                         <div class="filter-actions">
-                            <button id="applyCustomFilter" class="bg-indigo-600 text-white hover:bg-indigo-700">Aplicar</button>
-                            <button id="clearCustomFilter" class="bg-gray-600 text-white hover:bg-gray-700">Limpar</button>
+                            <button id="applyCustomFilter"
+                                class="bg-indigo-600 text-white hover:bg-indigo-700">Aplicar</button>
+                            <button id="clearCustomFilter"
+                                class="bg-gray-600 text-white hover:bg-gray-700">Limpar</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="md:col-span-12 flex justify-end space-x-4">
-                <button id="exportJson"
-                    class="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 btn-hover font-medium flex items-center space-x-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 0116 8c0 2.757-2.243 5-5 5H8m0 4l-4-4m0 0l4-4m0 4h12" />
-                    </svg>
-                    <span>Exportar JSON</span>
-                </button>
-                <label for="importJson"
-                    class="bg-purple-600 text-white py-2 px-6 rounded-md hover:bg-purple-700 btn-hover font-medium cursor-pointer flex items-center space-x-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16a4 4 0 00.88-7.903A5 5 0 008 8c0 2.757 2.243 5 5 5h3m0 4l4-4m0 0l-4-4m0 4H4" />
-                    </svg>
-                    <span>Importar JSON</span>
-                </label>
-                <input type="file" id="importJson" accept=".json" class="hidden">
-                <button id="exportExcel"
-                    class="bg-emerald-600 text-white py-2 px-6 rounded-md hover:bg-emerald-700 btn-hover font-medium flex items-center space-x-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h4a2 2 0 012 2v12a2 2 0 01-2 2z" />
-                    </svg>
-                    <span>Exportar para Excel</span>
-                </button>
-            </div>
-        </div>
+<div class="md:col-span-2 flex justify-end items-end space-x-4">
+    <div class="icon-button" id="exportExcel">
+        <img src="./imagens/excel_down.ico" alt="Exportar Excel">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+        <span class="tooltip">Baixar tabela <span
+                style="color: #00ac56; font-size: 14px;">Excel</span></span>
+    </div>
+    <div class="icon-button" id="exportJson">
+        <img src="./imagens/json_down.ico" alt="Exportar JSON">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+        <span class="tooltip">Baixar <span style="color: #9341ff; font-size: 14px;">.json</span></span>
+    </div>
+    <label for="importJson" class="icon-button">
+        <img src="./imagens/json_up.ico" alt="Importar JSON">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+        <span class="tooltip">Importar <span style="color: #9341ff; font-size: 14px;">.json</span></span>
+    </label>
+    <input type="file" id="importJson" accept=".json" class="hidden">
+</div>
+</div>
 
         <!-- Tabela -->
         <div class="table-container">
@@ -1086,11 +1187,11 @@
                 const { codFornecedor: codFilter, cnpj: cnpjFilter, centroCusto: centroCustoFilter } = customFilters;
 
                 const codMatch = (!codFilter.from || codFornecedor >= codFilter.from.toLowerCase()) &&
-                                 (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
+                    (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
                 const cnpjMatch = (!cnpjFilter.from || cleanCnpj >= cnpjFilter.from.replace(/\D/g, '')) &&
-                                  (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
+                    (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
                 const centroCustoMatch = (!centroCustoFilter.from || centroCusto >= centroCustoFilter.from.toLowerCase()) &&
-                                         (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
+                    (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
 
                 return (
                     codFornecedor.includes(filterCod) &&
@@ -1329,11 +1430,11 @@
                 const { codFornecedor: codFilter, cnpj: cnpjFilter, centroCusto: centroCustoFilter } = customFilters;
 
                 const codMatch = (!codFilter.from || codFornecedor >= codFilter.from.toLowerCase()) &&
-                                 (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
+                    (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
                 const cnpjMatch = (!cnpjFilter.from || cleanCnpj >= cnpjFilter.from.replace(/\D/g, '')) &&
-                                  (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
+                    (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
                 const centroCustoMatch = (!centroCustoFilter.from || centroCusto >= centroCustoFilter.from.toLowerCase()) &&
-                                         (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
+                    (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
 
                 return (
                     codFornecedor.includes(filterCod) &&
@@ -1390,7 +1491,7 @@
                 try {
                     const importedData = JSON.parse(e.target.result);
                     if (!Array.isArray(importedData)) throw new Error('Arquivo JSON deve conter uma lista de fornecedores');
-                    
+
                     const invalidEntries = [];
                     const validEntries = [];
                     const existingCnpjs = new Set(suppliers.map(s => s.cnpj));
@@ -1494,11 +1595,11 @@
                 const { codFornecedor: codFilter, cnpj: cnpjFilter, centroCusto: centroCustoFilter } = customFilters;
 
                 const codMatch = (!codFilter.from || codFornecedor >= codFilter.from.toLowerCase()) &&
-                                 (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
+                    (!codFilter.to || codFornecedor <= codFilter.to.toLowerCase());
                 const cnpjMatch = (!cnpjFilter.from || cleanCnpj >= cnpjFilter.from.replace(/\D/g, '')) &&
-                                  (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
+                    (!cnpjFilter.to || cleanCnpj <= cnpjFilter.to.replace(/\D/g, ''));
                 const centroCustoMatch = (!centroCustoFilter.from || centroCusto >= centroCustoFilter.from.toLowerCase()) &&
-                                         (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
+                    (!centroCustoFilter.to || centroCusto <= centroCustoFilter.to.toLowerCase());
 
                 return (
                     codFornecedor.includes(filterCod) &&
