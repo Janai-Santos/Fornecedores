@@ -15,6 +15,7 @@
             margin: 0;
             padding: 0;
             color: #f6f3f5;
+            font-family: poppins, Arial, Helvetica, sans-serif;
         }
 
         .custom-container {
@@ -103,8 +104,8 @@
             left: 100%;
             transform: translateY(-50%);
             margin-left: 25px;
-            background-color: #9ed88f;
-            color: rgb(49, 82, 90);
+            background-color: #c8ddb6;
+            color: rgb(58, 141, 86);
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 12px;
@@ -154,6 +155,11 @@
 
         .table-container::-webkit-scrollbar-thumb:hover {
             background: #818cf8;
+        }
+
+        .custom-header-bg {
+            background-color: #5277a8; /* Um tom de verde-azulado, por exemplo */
+            color: #cfcfcf;
         }
 
         .sort-icon {
@@ -248,7 +254,7 @@
         }
 
         .tooltip-field:hover .tooltip {
-            visibility: visible;
+            visibility: visible;    
             opacity: 1;
         }
 
@@ -258,7 +264,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(28, 83, 119, 0);
+            background: rgba(0, 0, 0, 0.568);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -432,18 +438,23 @@
             opacity: 1;
         }
 
-#customFilterButton:hover {
-    transform: scale(1.1); /* Efeito de zoom no botão inteiro */
-    transition: transform 0.3s ease; /* Transição suave */
-}
+        #customFilterButton:hover {
+            transform: scale(1.1);
+            /* Efeito de zoom no botão inteiro */
+            transition: transform 0.3s ease;
+            /* Transição suave */
+        }
 
-#customFilterButton:hover svg {
-    transform: scale(1); /* Remove o zoom individual do SVG para evitar sobreposição */
-}
+        #customFilterButton:hover svg {
+            transform: scale(1);
+            /* Remove o zoom individual do SVG para evitar sobreposição */
+        }
 
-#customFilterButton.btn-hover:hover {
-    transform: scale(1.1); /* Garante que o zoom seja aplicado, sobrescrevendo o efeito de subir */
-}
+        #customFilterButton.btn-hover:hover {
+            transform: scale(1.1);
+            /* Garante que o zoom seja aplicado, sobrescrevendo o efeito de subir */
+        }
+
         .filter-button .tooltip::after {
             content: "";
             position: absolute;
@@ -452,7 +463,7 @@
             transform: translateY(-50%);
             border-width: 5px;
             border-style: solid;
-            border-color: transparent transparent transparent rgba(99, 102, 241, 0.9);
+            border-color: transparent transparent transparent rgba(144, 145, 173, 0.9);
         }
 
         .filter-dropdown {
@@ -550,7 +561,7 @@
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             pointer-events: none;
             left: 50%;
@@ -565,7 +576,7 @@
 
         .icon-button .tooltip::after {
             content: "";
-            position:fixed;
+            position: fixed;
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
@@ -580,8 +591,10 @@
         }
 
         .icon-button svg {
-            width: 20px;            /* Ajustado de 16px para 24px para aumentar o tamanho da seta */
-            height: 20px;            /* Ajustado de 16px para 24px para aumentar o tamanho da seta */
+            width: 20px;
+            /* Ajustado de 16px para 24px para aumentar o tamanho da seta */
+            height: 20px;
+            /* Ajustado de 16px para 24px para aumentar o tamanho da seta */
             margin-left: 4px;
             color: #efd1fd;
         }
@@ -732,40 +745,40 @@
                     </div>
                 </div>
             </div>
-<div class="md:col-span-2 flex justify-end items-end space-x-4">
-    <div class="icon-button" id="exportExcel">
-        <img src="./imagens/excel_down.ico" alt="Exportar Excel">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-        <span class="tooltip">Baixar tabela <span
-                style="color: #00ac56; font-size: 14px;">Excel</span></span>
-    </div>
-    <div class="icon-button" id="exportJson">
-        <img src="./imagens/json_down.ico" alt="Exportar JSON">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-        <span class="tooltip">Baixar <span style="color: #9341ff; font-size: 14px;">.json</span></span>
-    </div>
-    <label for="importJson" class="icon-button">
-        <img src="./imagens/json_up.ico" alt="Importar JSON">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M5 10l7-7m0 0l7 7m-7-7v18" />
-        </svg>
-        <span class="tooltip">Importar <span style="color: #9341ff; font-size: 14px;">.json</span></span>
-    </label>
-    <input type="file" id="importJson" accept=".json" class="hidden">
-</div>
-</div>
+            <div class="md:col-span-2 flex justify-end items-end space-x-4">
+                <div class="icon-button" id="exportExcel">
+                    <img src="./imagens/excel_down.ico" alt="Exportar Excel">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                    <span class="tooltip">Baixar tabela <span
+                            style="color: #00ac56; font-size: 14px;">Excel</span></span>
+                </div>
+                <div class="icon-button" id="exportJson">
+                    <img src="./imagens/json_down.ico" alt="Exportar JSON">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                    <span class="tooltip">Baixar <span style="color: #9341ff; font-size: 14px;">.json</span></span>
+                </div>
+                <label for="importJson" class="icon-button">
+                    <img src="./imagens/json_up.ico" alt="Importar JSON">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    </svg>
+                    <span class="tooltip">Importar <span style="color: #9341ff; font-size: 14px;">.json</span></span>
+                </label>
+                <input type="file" id="importJson" accept=".json" class="hidden">
+            </div>
+        </div>
 
         <!-- Tabela -->
         <div class="table-container">
             <table id="supplierTable" class="w-full text-sm text-left custom-text-light">
-                <thead class="text-xs custom-text-light uppercase bg-indigo-700 sticky-header">
+                <thead class="text-xs custom-text-light uppercase custom-header-bg sticky-header">
                     <tr>
                         <th class="px-6 py-3" id="quantityHeader">
                             Qtd. (0)
